@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunSet Studio - Telegram Mini App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h1 class="logo-text">SunSet Studio</h1>
+            <input type="text" class="login-input" id="nameInput" placeholder="Ismingizni kiriting...">
+            <button class="login-btn" onclick="handleLogin()">KIRISH</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <!-- Header - Main Page da ko'rinadi -->
+        <div class="header" id="mainHeader">
+            <div class="header-logo">SunSet<br>Studio</div>
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Nima qidiramiz..." oninput="handleSearch()">
+            </div>
+            <button class="announcements-btn" onclick="showModal('announcementsModal')">📢</button>
+        </div>
+
+        <!-- Main Content Page -->
+        <div class="page-section active" id="mainPage">
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchMainTab('multfilm', this)">MULTFILM</button>
+                <button class="nav-tab" onclick="switchMainTab('anime', this)">ANIME</button>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="content-section">
+                <!-- Section Navigation -->
+                <div class="section-nav">
+                    <button class="section-tab active" onclick="switchSectionTab('trending', this)">Hozir Trendda</button>
+                    <button class="section-tab" onclick="switchSectionTab('new', this)">Yangi Qo'shildi</button>
+                </div>
+                
+                <!-- Content Grid -->
+                <div class="content-grid" id="contentGrid">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Favourites Page -->
+        <div class="page-section" id="favouritesPage">
+            <div class="page-header">FAVOURITES</div>
+            <div class="content-section">
+                <div class="content-grid" id="favouritesGrid">
+                    <!-- Favourites content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page-section" id="profilePage">
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-logo">SunSet<br>Studio</div>
+                    <div class="profile-name" id="profileName">Foydalanuvchi</div>
+                </div>
+                
+                <div class="profile-menu">
+                    <div class="profile-menu-item" onclick="showPage('favourites')">
+                        <span class="icon">❤️</span>
+                        FAVOURITES
+                    </div>
+                    <div class="profile-menu-item" onclick="showModal('announcementsModal')">
+                        <span class="icon">📢</span>
+                        ANNOUNCEMENTS
+                    </div>
+                    <div class="profile-menu-item" onclick="showModal('socialModal')">
+                        <span class="icon">🌐</span>
+                        SOCIAL PAGES
+                    </div>
+                    <div class="profile-menu-item" onclick="showModal('supportModal')">
+                        <span class="icon">🛠️</span>
+                        SUPPORT
+                    </div>
+                    <div class="profile-menu-item" onclick="handleLogout()">
+                        <span class="icon">🚪</span>
+                        LOG OUT
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="bottom-nav-item active" onclick="showPage('main')">
+                <span class="icon">🏠</span>
+                MAIN MENU
+            </button>
+            <button class="bottom-nav-item" onclick="showPage('favourites')">
+                <span class="icon">❤️</span>
+                FAVOURITES
+            </button>
+            <button class="bottom-nav-item" onclick="showPage('profile')">
+                <span class="icon">👤</span>
+                PROFILE
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Details Modal -->
+    <div class="modal" id="contentDetailsModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('contentDetailsModal')">×</button>
+            <div class="youtube-player">
+                <!-- YouTube player content here -->
+                <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h2 id="contentDetailsTitle" style="text-align: center; margin-bottom: 10px;"></h2>
+            <p id="contentDetailsDescription"></p>
+            <div style="text-align: center;">
+                <span class="like-icon" onclick="toggleLike()">❤️</span>
+                <button onclick="watchContent()" style="padding: 10px 20px; background-color: #FF6B35; color: white; border: none; border-radius: 5px; cursor: pointer;">Watch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="announcementsModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('announcementsModal')">×</button>
+            <div class="modal-header">ANNOUNCEMENTS</div>
+            <div class="announcement-item">
+                <div class="announcement-title">Yangi Seriya!</div>
+                <div class="announcement-text">KPop Demon Hunters yangi seriyasi chiqdi! Rumi, Mira va Zoey ning yangi sarguzashtlarini kuzating.</div>
+            </div>
+            <div class="announcement-item">
+                <div class="announcement-title">Yangilanish</div>
+                <div class="announcement-text">Ilovamizga yangi funksiyalar qo'shildi. Endi siz sevimli kontentlaringizni saqlashingiz mumkin!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="socialModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('socialModal')">×</button>
+            <div class="modal-header">SOCIAL PAGES</div>
+            <div class="profile-menu">
+                <div class="profile-menu-item">
+                    <span class="icon">📱</span>
+                    TELEGRAM KANALIMIZ
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">👥</span>
+                    TELEGRAM GURUHIMIZ
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">📺</span>
+                    YOUTUBE KANALIMIZ
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">🎬</span>
+                    BOSHQA KONTENTIMIZ
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">💡</span>
+                    SOCIAL MEDIA IDEAS
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('supportModal')">×</button>
+            <div class="modal-header">SUPPORT</div>
+            <div class="profile-menu">
+                <div class="profile-menu-item">
+                    <span class="icon">👨‍💼</span>
+                    ADMIN BILAN BOG'LANISH
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">🚫</span>
+                    SPAM BO'LGANLAR UCHUN
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">🌐</span>
+                    SHUNDAY WEB3 APP KERAK
+                </div>
+                <div class="profile-menu-item">
+                    <span class="icon">👤</span>
+                    @rapunziey
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
